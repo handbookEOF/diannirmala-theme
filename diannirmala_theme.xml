@@ -2,7 +2,9 @@
 <!DOCTYPE html>
 <html b:version='2' class='v2' expr:dir='data:blog.languageDirection' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
   <head>
-    <meta expr:content='data:blog.isMobile         ? &quot;width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0&quot;         : &quot;width=1100&quot;' name='viewport'/>
+    <meta  name='viewport' expr:content='data:blog.isMobile ? &quot;width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0&quot; : &quot;width=1100&quot;'/>
+    <meta name="theme-color" content="#fa618a"/>
+    <!-- <link rel="icon" type="image/png" href="icon-192x192.png" sizes="192x192"/> -->
     <b:include data='blog' name='all-head-content'/>
     <title><data:blog.pageTitle/></title>
 
@@ -43,19 +45,33 @@
         }
 
         .post-outer {
+          background-color: #def;
           padding: 10px;
           border-radius: 3px;
           transition: all 0.8s;
         }
 
         .post-outer:hover {
-          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+          background-color: #fff;
+          box-shadow: 0 4px 8px 5px rgba(0, 0, 0, 0.2), 0 6px 20px 8px rgba(0, 0, 0, 0.19);
+        }
+
+        header, footer {
+          background: url("http://api.thumbr.it/whitenoise-1200x800.png?background=0c222bff&noise=626262&density=70&opacity=10");
+          color: #dff;
+        }
+
+        .dian-wrapper {
+          background: url("http://api.thumbr.it/whitenoise-1200x800.png?background=fa618aff&noise=f7becb&density=70&opacity=15");
         }
 
         .dian-sidebar{
+          height: 25em;
           padding: 10px;
           border-radius: 3px;
-          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+          /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+          overflow: auto;
+          overflow-x: hidden;
         }
 
         .dian-headline{
@@ -64,6 +80,45 @@
           width: 100%;
           margin: 0;
         }
+
+        #dian-header, #dian-footer{
+          color: #fff;
+        }
+
+        .btn-dian-header{
+          background: none;
+        }
+
+        @media (min-width: @screen-sm-min) {
+          /* For mobile phones: */
+          html, body {
+            font-size: 18px;
+          }
+
+          .post-outer {
+            background-color: #fff;
+            box-shadow: 0 4px 8px 5px rgba(0, 0, 0, 0.2), 0 6px 20px 8px rgba(0, 0, 0, 0.19);
+            padding: 10px;
+            border-radius: 2px;
+          }
+
+          .dian-sidebar{
+            height: 120px;
+            padding: 2px;
+            border-radius: 2px;
+            overflow: auto;
+          }
+
+          #dian-header-drop .btn-xs, #dian-header-drop .btn {
+            background: none;
+          }
+
+          .btn-dian-header{
+            background: none;
+          }
+
+        }
+
       ]]>
     </b:template-skin>
   </head>
@@ -71,38 +126,209 @@
   <body>
 
     <header>
-      <div class="row">
-        <div class="col-sm-4">
-          <b:section id="dian-header" class="dian-header">
-          </b:section>
-        </div>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-xs-12 col-sm-4">
+            <b:section id="dian-header" class="dian-header">
+              <b:widget cond='!data:view.isPost' id='PageList1' locked='false' title='' type='PageList'>
 
-        <div class="col-sm-4">
-          <b:section id="dian-middlebar" class="dian-middlebar">
-          </b:section>
-        </div>
 
-        <div class="col-sm-4">
-          <b:section id="dian-sidebar" class="dian-sidebar">
-          </b:section>
+                <b:includable id='main'>
+                  <div class="row">
+                    <b:if cond='data:title != &quot;&quot;'><h2><data:title/></h2></b:if>
+                    <div class='widget-content'>
+                      <b:if cond='data:mobile'>
+                        <select expr:id='data:widget.instanceId + &quot;_select&quot;'>
+                          <b:loop values='data:links' var='link'>
+                            <b:if cond='data:link.isCurrentPage'>
+                              <option expr:value='data:link.href' selected='selected'><data:link.title/></option>
+                            <b:else/>
+                              <option expr:value='data:link.href'><data:link.title/></option>
+                            </b:if>
+                          </b:loop>
+                        </select>
+                        <span class='pagelist-arrow'>&amp;#9660;</span>
+
+                      <b:else/>
+                      <div class="dropdown">
+                        <button id="dian-header-drop" class="btn btn-xs btn-sm btn-dian-header dropdown-toggle" type="button" data-toggle="dropdown"><h2><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span> Dian Nirmala</h2></button>
+                        <ul class="dropdown-menu">
+                          <b:loop values='data:links' var='link'>
+                            <b:if cond='data:link.isCurrentPage'>
+                              <li class='selected'><a expr:href='data:link.href'><data:link.title/></a></li>
+                            <b:else/>
+                              <li><a expr:href='data:link.href'><data:link.title/></a></li>
+                            </b:if>
+                          </b:loop>
+                        </ul>
+                      </div>
+                      </b:if>
+                      <b:include name='quickedit'/>
+                    </div>
+                  </div>
+                </b:includable>
+              </b:widget>
+            </b:section>
+          </div>
+
+          <div class="col-xs-12 col-sm-4">
+            <b:section id="dian-middlebar" class="dian-middlebar">
+            </b:section>
+          </div>
+
+          <div class="col-xs-12 col-sm-4">
+            <b:section id="dian-sidebar" class="dian-sidebar">
+            </b:section>
+          </div>
         </div>
       </div>
     </header>
 
     <div class="dian-wrapper">
-      <div class="row">
-        <div class="col-sm-1"></div>
-        <div class="col-sm-10">
-          <b:section id="dian-content" class="dian-content">
-          </b:section>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-xs-1 col-sm-1"></div>
+          <div class="col-xs-10 col-sm-10">
+            <b:section id="dian-content" class="dian-content">
+            </b:section>
+          </div>
         </div>
       </div>
     </div>
 
     <footer>
-      <div class="row">
-        <div class="col-sm-12">
-          <b:section id="dian-footer" class="dian-footer">
+      <div class="container-fluid">
+        <div class="row">
+          <b:section id="dian-footer1" class="dian-footer1">
+            <b:widget id='Profile1' locked='false' title='Kontributor' type='Profile'>
+              <b:widget-settings>
+                <b:widget-setting name='showaboutme'>false</b:widget-setting>
+                <b:widget-setting name='showlocation'>false</b:widget-setting>
+              </b:widget-settings>
+              <b:includable id='main'>
+                <div class="col-xs-12 col-sm-8">
+                  <b:if cond='data:title != &quot;&quot;'>
+                    <h2><data:title/></h2>
+                  </b:if>
+                  <div class='widget-content'>
+                  <b:if cond='data:team'> <!-- team blog profile -->
+                    <ul>
+                      <b:loop values='data:authors' var='i'>
+                        <li><a class='profile-name-link g-profile' expr:href='data:i.userUrl' expr:style='&quot;background-image: url(&quot; + data:i.profileLogo + &quot;);&quot;'><data:i.display-name/></a></li>
+                      </b:loop>
+                    </ul>
+
+                  <b:else/> <!-- normal blog profile -->
+
+                    <b:if cond='data:photo.url != &quot;&quot;'>
+                      <a expr:href='data:userUrl'><img class='profile-img' expr:alt='data:messages.myPhoto' expr:height='data:photo.height' expr:src='data:photo.url' expr:width='data:photo.width'/></a>
+                    </b:if>
+
+                    <dl class='profile-datablock'>
+                      <dt class='profile-data'>
+                        <a class='profile-name-link g-profile' expr:href='data:userUrl' expr:style='&quot;background-image: url(&quot; + data:profileLogo + &quot;);&quot;' rel='author'>
+                          <data:displayname/>
+                        </a>
+                        <b:if cond='data:hasgoogleprofile'>
+                          <br/>
+                          <div class='g-follow' data-annotation='bubble' data-height='20' expr:data-href='data:userUrl'></div>
+                        </b:if>
+                      </dt>
+
+                      <b:if cond='data:showlocation'>
+                        <dd class='profile-data'><data:location/></dd>
+                      </b:if>
+
+                      <b:if cond='data:aboutme != &quot;&quot;'><dd class='profile-textblock'><data:aboutme/></dd></b:if>
+                    </dl>
+                    <a class='profile-link' expr:href='data:userUrl' rel='author'><data:viewProfileMsg/></a>
+                  </b:if>
+
+                   <b:include name='quickedit'/>
+                  </div>
+                </div>
+              </b:includable>
+            </b:widget>
+            <b:widget id='FollowByEmail1' locked='false' title='Follow by Email' type='FollowByEmail'>
+              <b:includable id='main'>
+                <div class="col-xs-12 col-sm-4">
+                  <b:if cond='data:title != &quot;&quot;'><h2 class='title'><data:title/></h2></b:if>
+                  <div class='widget-content'>
+                    <div class='follow-by-email-inner'>
+                      <form action='https://feedburner.google.com/fb/a/mailverify' expr:onsubmit='&quot;window.open(\&quot;https://feedburner.google.com/fb/a/mailverify?uri=&quot; + data:feedPath + &quot;\&quot;, \&quot;popupwindow\&quot;, \&quot;scrollbars=yes,width=550,height=520\&quot;); return true&quot;' method='post' target='popupwindow'>
+                        <table width='100%'>
+                          <tr>
+                            <td>
+                              <input class='follow-by-email-address' name='email' placeholder='Email address...' type='text'/>
+                            </td>
+                            <td width='64px'>
+                              <input class='follow-by-email-submit' type='submit' value='Submit'/>
+                            </td>
+                          </tr>
+                        </table>
+                        <input expr:value='data:feedPath' name='uri' type='hidden'/>
+                        <input name='loc' type='hidden' value='en_US'/>
+                      </form>
+                    </div>
+                  </div>
+                  <span class='item-control blog-admin'>
+                    <b:include name='quickedit'/>
+                  </span>
+                </div>
+              </b:includable>
+            </b:widget>
+            <b:widget id='BlogSearch1' locked='false' title='Cari Blog Ini' type='BlogSearch'>
+              <b:includable id='main'>
+                <div class="col-xs-12 col-sm-4">
+                  <!-- only display title if it's non-empty -->
+                  <b:if cond='data:title != &quot;&quot;'>
+                    <h2 class='title'><data:title/></h2>
+                  </b:if>
+
+                  <div class='widget-content'>
+                    <div expr:id='data:widget.instanceId + &quot;_form&quot;'>
+                      <form class='gsc-search-box' expr:action='data:blog.searchUrl'>
+                        <table cellpadding='0' cellspacing='0' class='gsc-search-box'>
+                          <tbody>
+                            <tr>
+                              <td class='gsc-input'>
+                                <input autocomplete='off' class='gsc-input' expr:value='data:view.isSearch ? data:view.search.query.escaped : &quot;&quot;' name='q' size='10' title='search' type='text'/>
+                              </td>
+                              <td class='gsc-search-button'>
+                                <input class='gsc-search-button' expr:value='data:messages.search' title='search' type='submit'/>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </form>
+                    </div>
+                  </div>
+
+                  <b:include name='quickedit'/>
+                </div>
+              </b:includable>
+            </b:widget>
+          </b:section>
+        </div>
+
+        <div class="row">
+          <b:section id="dian-footer2" class="dian-footer2">
+            <b:widget cond='not data:features.hideAttribution' id='Attribution1' locked='false' title='' type='Attribution'>
+              <b:widget-settings>
+                <b:widget-setting name='copyright'/>
+              </b:widget-settings>
+              <b:includable id='main'>
+                <div class="col-xs-12 col-sm-6">
+                  <div class='widget-content' style='text-align: center;'>
+                    <b:if cond='data:attribution != &quot;&quot;'>
+                     <data:attribution/>
+                    </b:if>
+                  </div>
+
+                  <b:include name='quickedit'/>
+                </div>
+              </b:includable>
+            </b:widget>
           </b:section>
         </div>
       </div>
